@@ -45,6 +45,7 @@ import org.freedesktop.gstreamer.*;
 import org.freedesktop.gstreamer.Buffer;
 import org.freedesktop.gstreamer.elements.*;
 import org.freedesktop.gstreamer.gl.GLContext;
+import org.freedesktop.gstreamer.gl.GLDisplay;
 import org.freedesktop.gstreamer.gl.GLMemory;
 import org.freedesktop.gstreamer.lowlevel.GstBufferAPI;
 import org.freedesktop.gstreamer.lowlevel.GstMessageAPI;
@@ -909,7 +910,7 @@ public class MovieGL extends PImage implements PConstants {
       @Override
       public void needContext(GstObject source, Message msg) {
         // TODO Auto-generated method stub
-        System.err.println("NEED CONTEXT " + msg.getType().getName());
+        System.out.println("NEED CONTEXT " + msg.getType().getName());
         // http://www.eshayne.com/jnaex/index.html?example=2
         // Receive a String from C
         PointerByReference ptrRef = new PointerByReference();
@@ -918,7 +919,19 @@ public class MovieGL extends PImage implements PConstants {
         // extract the null-terminated string from the Pointer
         String context_type = p.getString(0);
         
-        System.err.println("  " + context_type);
+        if (context_type.equals("gst.gl.GLDisplay")) {
+          System.out.println("  Need Display!");
+          PSurfaceJOGL surf = (PSurfaceJOGL) parent.getSurface();          
+//          System.out.println("  handle " + surf.window.getHandle()); // window.getHanle is not visible...
+          System.out.println("  about to create GLDisplay...");
+          GLDisplay.createNew();
+          System.out.println("  done!");              
+        } else if (context_type.equals("gst.gl.app_context")) {
+          System.out.println("  Need Context!");
+          PJOGL pjpgl = (PJOGL)((PGraphicsOpenGL) parent.g).pgl;
+          System.out.println("  handle " + pjpgl.context.getHandle());
+        }
+        
         
       }
       
@@ -1200,10 +1213,12 @@ public class MovieGL extends PImage implements PConstants {
       
       if (frame != null) {
         // texture = *(guint *) v_frame.data[0];
-        texId = frame.data[0].getPointer(0).getInt(0);    
+        texId = frame.data[0].getPointer(0).getInt(0);
+//        texId = frame.data[0].getInt(0);
+        
         texW = info.width; 
         texH = info.height;  
-        System.out.println("texture: " +  texId);
+//        System.out.println("texture: " +  texId);
 //        System.out.println("frame: " + frame.hashCode());
 //        System.out.println("frame.id: " + frame.id);
 //        System.out.println("frame.flags: " + frame.flags);
