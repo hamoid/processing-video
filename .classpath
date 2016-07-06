@@ -4,6 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/processing-core"/>
 	<classpathentry kind="lib" path="library/jna.jar"/>
-	<classpathentry kind="lib" path="library/gst1-java-core-0.9-SNAPSHOT.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gst1-java-core"/>
+	<classpathentry kind="lib" path="/processing-core/library/jogl-all.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
