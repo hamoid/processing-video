@@ -928,8 +928,8 @@ public class MovieGL extends PImage implements PConstants {
           System.out.println("  done!");              
         } else if (context_type.equals("gst.gl.app_context")) {
           System.out.println("  Need Context!");
-          PJOGL pjpgl = (PJOGL)((PGraphicsOpenGL) parent.g).pgl;
-          System.out.println("  handle " + pjpgl.context.getHandle());
+          //PJOGL pjpgl = (PJOGL)((PGraphicsOpenGL) parent.g).pgl;
+          //System.out.println("  handle " + pjpgl.context.getHandle());
         }
         
         
@@ -1194,7 +1194,7 @@ public class MovieGL extends PImage implements PConstants {
   private class NewSampleListener implements AppSink.NEW_SAMPLE {
 
     @Override
-    public void newBuffer(AppSink sink) {
+    public FlowReturn newSample(AppSink sink) {
       Sample sample = sink.pullSample();
       Caps caps =  sample.getCaps();
       Structure capsStruct = caps.getStructure(0);
@@ -1267,6 +1267,7 @@ public class MovieGL extends PImage implements PConstants {
       */
       
       sample.dispose();
+      return null;
     }
   }
   
